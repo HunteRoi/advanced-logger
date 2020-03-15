@@ -35,7 +35,7 @@ const log = new Logger();
 | Key                | Type    | Description                                                                                     | Default |
 | ------------------ | ------- | ----------------------------------------------------------------------------------------------- | ------- |
 | `includeTimestamp` | boolean | If `true`, timestamp will be included in the message that is written to the console.            | `false` |
-| `minLevel`         | string  | The minimum level for which events with specified level or higher will be output to the console | `info`  |
+| `minLevel`         | LogEventLevel  | The minimum level for which events with specified level or higher will be output to the console | `info`  |
 
 ```js
 const log = new Logger({ includeTimestamp: true });
