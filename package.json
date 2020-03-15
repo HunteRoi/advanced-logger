@@ -1,0 +1,35 @@
+{
+  "name": "@hunteroi/advanced-logger",
+  "version": "0.0.1",
+  "description": "An advanced logger using the Javascript Console object",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "logging",
+    "advanced",
+    "timestamp",
+    "color"
+  ],
+  "author": "HunteRoi",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hunteroi/advanced-logger"
+  },
+  "bugs": {
+    "url": "https://github.com/hunteroi/advanced-logger/issues"
+  },
+  "homepage": "https://github.com/hunteroi/advanced-logger#readme",
+  "devDependencies": {
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "chalk": "^3.0.0",
+    "moment": "^2.24.0"
+  }
+}
