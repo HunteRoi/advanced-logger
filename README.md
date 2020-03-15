@@ -10,14 +10,14 @@ This library can be used within Javascript and Typescript applications.
 ```ts
 // Javascript
 
-const Logger = require('@hunteroi/advanced-logger');
+const { Logger } = require('@hunteroi/advanced-logger');
 
 const log = new Logger();
 
 
 // Typescript
 
-import Logger from '@hunteroi/advanced-logger';
+import { Logger } from '@hunteroi/advanced-logger';
 
 const log = new Logger();
 ```
