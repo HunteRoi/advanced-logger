@@ -1,6 +1,12 @@
 import chalk from 'chalk';
 import moment from 'moment';
 
+/**
+ * The log event level
+ *
+ * @export
+ * @enum {number}
+ */
 export enum LogEventLevel {
     off = 0,
     fatal = 1 << 0,
@@ -11,15 +17,26 @@ export enum LogEventLevel {
     verbose = debug | 1 << 5
 }
 
-interface LoggerOptions {
+/**
+ * The logger options
+ *
+ * @interface ILoggerOptions
+ */
+export interface ILoggerOptions {
     minLevel: LogEventLevel;
     includeTimestamp: boolean;
 }
 
+/**
+ * The logger class
+ *
+ * @export
+ * @class Logger
+ */
 export class Logger {
-    private _options: LoggerOptions;
+    private _options: ILoggerOptions;
 
-    constructor({ minLevel = LogEventLevel.info, includeTimestamp = false }: LoggerOptions) {
+    constructor({ minLevel = LogEventLevel.info, includeTimestamp = false }: ILoggerOptions) {
         this._options = {
             minLevel: minLevel,
             includeTimestamp
@@ -27,30 +44,29 @@ export class Logger {
     }
 
     /**
+     * Log a message to the console at the provided `level`. Include the timestamp if `includeTimestamp` is set.
      *
-     *
-     * @private
-     * @param {string} message
-     * @param {LogEventLevel} level
-     * @param {boolean} [includeTimestamp]
+     * @param {string} message the message to log
+     * @param {LogEventLevel} level the level to log the message at
+     * @param {boolean} [includeTimestamp] whether to log the message with the timestamp or not. Defaults to false.
      * @memberof Logger
      */
     log(message: string, level: LogEventLevel, includeTimestamp?: boolean): void;
 
     /**
+     * Log a message to the console based on the provided `localOptions`
      *
-     *
-     * @private
-     * @param {string} message
-     * @param {LoggerOptions} localOptions
+     * @param {string} message the message to log
+     * @param {ILoggerOptions} localOptions - the local options which are used by the logger
      * @memberof Logger
      */
-    log(message: string, localOptions: LoggerOptions): void;
+    log(message: string, localOptions: ILoggerOptions): void;
 
 
-    log(message: string, level: LogEventLevel | LoggerOptions, includeTimestamp?: boolean): void {
+    log(message: string, level: LogEventLevel | ILoggerOptions, includeTimestamp?: boolean): void {
         if (typeof level !== 'number') {
             includeTimestamp = level.includeTimestamp;
+            level = level.minLevel;
         }
 
         if (this._options.minLevel === LogEventLevel.off || level > this._options.minLevel) return;
@@ -88,7 +104,8 @@ export class Logger {
     };
 
     /**
-     *
+     * Logs a fatal error to the console. 
+     * When it occurs, it is good practice to kill the process afterwards.
      *
      * @param {string} message
      * @memberof Logger
@@ -96,15 +113,15 @@ export class Logger {
     fatal = (message: string): void => this.log(message, LogEventLevel.fatal);
 
     /**
-     *
-     *
+     * Logs an error to the console
+     * 
      * @param {string} message
      * @memberof Logger
      */
     error = (message: string): void => this.log(message, LogEventLevel.error);
 
     /**
-     *
+     * Logs a warning to the console
      *
      * @param {string} message
      * @memberof Logger
@@ -112,7 +129,7 @@ export class Logger {
     warn = (message: string): void => this.log(message, LogEventLevel.warning);
 
     /**
-     *
+     * Logs an information to the console
      *
      * @param {string} message
      * @memberof Logger
@@ -120,7 +137,7 @@ export class Logger {
     info = (message: string): void => this.log(message, LogEventLevel.info);
 
     /**
-     *
+     * Logs debug information to the console.
      *
      * @param {string} message
      * @memberof Logger
@@ -128,8 +145,9 @@ export class Logger {
     debug = (message: string): void => this.log(message, LogEventLevel.debug);
 
     /**
-     *
-     *
+     * Logs everything in the console.
+     * Called verbose because it can be quite spammy.
+     * 
      * @param {string} message
      * @memberof Logger
      */
