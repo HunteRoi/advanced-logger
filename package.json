@@ -1,6 +1,6 @@
 {
   "name": "@hunteroi/advanced-logger",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "An advanced logger using the Javascript Console object",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
