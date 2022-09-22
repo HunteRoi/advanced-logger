@@ -23,14 +23,29 @@ export interface ILoggerOptions {
     includeTimestamp: boolean;
 }
 /**
+ * The base class for a logger.
+ *
+ * @export
+ * @class BaseLogger
+ */
+export declare class BaseLogger {
+    protected readonly console: Console;
+    constructor(console: Console);
+}
+/**
  * The logger class
  *
  * @export
  * @class Logger
  */
-export declare class Logger {
+export declare class Logger extends BaseLogger {
     private _options;
-    constructor({ minLevel, includeTimestamp }: ILoggerOptions);
+    /**
+     * Creates an instance of Logger.
+     * @param {ILoggerOptions} [{ minLevel = LogEventLevel.info, includeTimestamp = false }={ minLevel: LogEventLevel.info, includeTimestamp: false }]
+     * @memberof Logger
+     */
+    constructor({ minLevel, includeTimestamp }?: ILoggerOptions);
     /**
      * Log a message to the console at the provided `level`. Include the timestamp if `includeTimestamp` is set.
      *

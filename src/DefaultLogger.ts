@@ -1,42 +1,21 @@
 import chalk from 'chalk';
 import moment from 'moment';
 
-/**
- * The log event level
- *
- * @export
- * @enum {number}
- */
-export enum LogEventLevel {
-    off = 0,
-    fatal = 1 << 0,
-    error = fatal | 1 << 1,
-    warning = error | 1 << 2,
-    info = warning | 1 << 3,
-    debug = info | 1 << 4,
-    verbose = debug | 1 << 5
-}
+import { BaseLogger } from './BaseLogger';
+import { LogEventLevel } from "./LogEventLevel";
+import { ILoggerOptions } from "./ILoggerOptions";
+import { Stream } from './Stream';
 
-/**
- * The logger options
- *
- * @interface ILoggerOptions
- */
-export interface ILoggerOptions {
-    minLevel: LogEventLevel;
-    includeTimestamp: boolean;
-}
-
-/**
- * The logger class
- *
- * @export
- * @class Logger
- */
-export class Logger {
+export class DefaultLogger extends BaseLogger {
     private _options: ILoggerOptions;
 
-    constructor({ minLevel = LogEventLevel.info, includeTimestamp = false }: ILoggerOptions) {
+    /**
+     * Creates an instance of Logger.
+     * @param {ILoggerOptions} [{ minLevel = LogEventLevel.info, includeTimestamp = false }={ minLevel: LogEventLevel.info, includeTimestamp: false }]
+     * @memberof Logger
+     */
+    constructor(stream: Stream, { minLevel = LogEventLevel.info, includeTimestamp = false }: ILoggerOptions = { minLevel: LogEventLevel.info, includeTimestamp: false }) {
+        super(stream);
         this._options = {
             minLevel: minLevel,
             includeTimestamp
@@ -62,18 +41,19 @@ export class Logger {
      */
     log(message: string, localOptions: ILoggerOptions): void;
 
-
     log(message: string, level: LogEventLevel | ILoggerOptions, includeTimestamp?: boolean): void {
         if (typeof level !== 'number') {
             includeTimestamp = level.includeTimestamp;
             level = level.minLevel;
         }
 
-        if (this._options.minLevel === LogEventLevel.off || level > this._options.minLevel) return;
+        if (this._options.minLevel === LogEventLevel.off || level > this._options.minLevel)
+            return;
 
         const result = [];
 
-        if (includeTimestamp || this._options.includeTimestamp) result.push(`[${moment().format('DD-MM-YYYY HH:mm:ss')}]`);
+        if (includeTimestamp || this._options.includeTimestamp)
+            result.push(`[${moment().format('DD-MM-YYYY HH:mm:ss')}]`);
 
         switch (level) {
             case LogEventLevel.fatal:
@@ -100,11 +80,13 @@ export class Logger {
 
         result.push(message);
 
-        return console.log(result.join(' '));
+        return this.stream.write(result.join(' '));
     };
 
+
+
     /**
-     * Logs a fatal error to the console. 
+     * Logs a fatal error to the console.
      * When it occurs, it is good practice to kill the process afterwards.
      *
      * @param {string} message
@@ -114,7 +96,7 @@ export class Logger {
 
     /**
      * Logs an error to the console
-     * 
+     *
      * @param {string} message
      * @memberof Logger
      */
@@ -147,12 +129,9 @@ export class Logger {
     /**
      * Logs everything in the console.
      * Called verbose because it can be quite spammy.
-     * 
+     *
      * @param {string} message
      * @memberof Logger
      */
     verbose = (message: string): void => this.log(message, LogEventLevel.verbose);
 }
-
-const _default = { LogEventLevel, Logger };
-export default _default;
