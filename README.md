@@ -10,23 +10,23 @@ This library can be used within Javascript and Typescript applications.
 ```ts
 // Javascript
 
-const { Logger } = require('@hunteroi/advanced-logger');
+const { ConsoleLogger } = require('@hunteroi/advanced-logger');
 
-const log = new Logger();
+const log = new ConsoleLogger();
 
 
 // Typescript
 
-import { Logger } from '@hunteroi/advanced-logger';
+import { ConsoleLogger } from '@hunteroi/advanced-logger';
 
-const log = new Logger();
+const log = new ConsoleLogger();
 ```
 
 ## Installation
 
 **advanced-logger** can be found on [npm](https://www.npmjs.com/package/@hunteroi/advanced-logger). Run the following:
     
-    npm i --save @hunteroi/advanced-logger
+    yarn add @hunteroi/advanced-logger
 
 ## Configuration
 
@@ -38,7 +38,7 @@ const log = new Logger();
 | `minLevel`         | LogEventLevel  | The minimum level for which events with specified level or higher will be output to the console | `info`  |
 
 ```js
-const log = new Logger({ includeTimestamp: true });
+const log = new ConsoleLogger({ includeTimestamp: true });
 ```
 
 ### Log Levels

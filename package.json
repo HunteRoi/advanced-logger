@@ -14,7 +14,8 @@
     "timestamp",
     "moment",
     "chalk",
-    "colors"
+    "colors",
+    "console"
   ],
   "author": "HunteRoi",
   "license": "Apache-2.0",
